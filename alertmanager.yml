@@ -1,4 +1,4 @@
-# Adding Multiple containers at the same time send notification with no details. 
+# Adding Multiple containers at the same time, sends notification with no details. 
 
 global:
   resolve_timeout: 5m
