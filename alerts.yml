@@ -1,0 +1,11 @@
+groups:
+  - name: container_alerts                                                    # Group for the container alerts
+    rules:
+      - alert: Container_Down                                                  # Name of the alert
+        expr: time() - max by (name) (container_last_seen) > 30               # If the last update was over 30s ago
+        for: 30s                                                              # Alert if the container is down for 30 seconds
+        labels:
+          severity: critical                                                  # Label to mark the alert as critical
+        annotations:
+          summary: "🚨 Container Down: {{ $labels.name }}"                    # Alert summary with the container name
+          description: "Container {{ $labels.name }} is not running."         # Description of the alert

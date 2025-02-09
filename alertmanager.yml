@@ -1,0 +1,24 @@
+# Adding Multiple containers at the same time send notification with no details. 
+
+global:
+  resolve_timeout: 5m
+
+route:
+  group_by: ['alertname']
+  receiver: 'discord'
+  group_interval: 1s    # No grouping (send separately)
+
+receivers:
+  - name: discord
+    discord_configs:
+      - webhook_url: 'https://discord.com/api/webhooks/${DISCORD_WEBHOOK_ID}/${DISCORD_WEBHOOK_TOKEN}'
+        send_resolved: true
+        title: "{{ .CommonLabels.alertname }}"
+        message: "
+          **Labels:**\n
+          - name = {{ .CommonLabels.name }}\n
+          - severity = {{ .CommonLabels.severity }}\n\n
+          **Annotations:**\n
+          - description = {{ .CommonAnnotations.description }}\n
+          - summary = {{ .CommonAnnotations.summary }}
+          "
